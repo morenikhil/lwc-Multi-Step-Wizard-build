@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="720" viewBox="0 0 960 720" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#5a6b8c"/>
+    </marker>
+    <style>
+      .title  { font-size: 22px; font-weight: 700; fill: #16325c; }
+      .sub     { font-size: 13px; fill: #5a6b8c; }
+      .lbl     { font-size: 14px; font-weight: 600; fill: #16325c; }
+      .small   { font-size: 11.5px; fill: #54698d; }
+      .flow    { fill: #f3f6fb; stroke: #b7c3d6; stroke-width: 1.5; }
+      .comp    { fill: #eef4ff; stroke: #7aa5e8; stroke-width: 1.5; }
+      .apex    { fill: #fff4e6; stroke: #e8a24a; stroke-width: 1.5; }
+      .evt     { font-size: 11px; fill: #2f6f43; font-weight: 600; }
+      .edge    { stroke: #5a6b8c; stroke-width: 1.6; fill: none; }
+    </style>
+  </defs>
+
+  <text x="40" y="46" class="title">Multi-Step Wizard — Component Architecture</text>
+  <text x="40" y="68" class="sub">Slot-based composition · self-registering steps · event-driven navigation</text>
+
+  <!-- Consumer layer -->
+  <rect x="40" y="92" width="880" height="360" class="flow" rx="10"/>
+  <text x="60" y="118" class="lbl">Consumer component  (e.g. c-wizard-demo)</text>
+  <text x="60" y="137" class="small">Owns form state · provides step markup · handles oncomplete / onstepchange</text>
+
+  <!-- Wizard container -->
+  <rect x="70" y="156" width="820" height="272" class="comp" rx="10"/>
+  <text x="90" y="182" class="lbl">c-multi-step-wizard  (container)</text>
+  <text x="90" y="201" class="small">Progress indicator · Back/Next footer · validation gate · public API: next() previous() goToStep() reset()</text>
+
+  <!-- Progress indicator strip -->
+  <rect x="92" y="214" width="776" height="40" class="comp" rx="6"/>
+  <text x="104" y="239" class="small">lightning-progress-indicator  —  (1)Details > (2)Address > (3)Preferences > (4)Review</text>
+
+  <!-- Slot / steps -->
+  <rect x="92" y="264" width="776" height="96" class="comp" rx="6"/>
+  <text x="104" y="285" class="small">&lt;slot&gt;  — projected c-wizard-step children (only the active one is shown)</text>
+
+  <rect x="112" y="296" width="170" height="50" class="comp" rx="6"/>
+  <text x="122" y="317" class="lbl" style="font-size:12px">c-wizard-step</text>
+  <text x="122" y="335" class="small">name="details"</text>
+
+  <rect x="300" y="296" width="170" height="50" class="comp" rx="6"/>
+  <text x="310" y="317" class="lbl" style="font-size:12px">c-wizard-step</text>
+  <text x="310" y="335" class="small">name="address"</text>
+
+  <rect x="488" y="296" width="170" height="50" class="comp" rx="6"/>
+  <text x="498" y="317" class="lbl" style="font-size:12px">c-wizard-step</text>
+  <text x="498" y="335" class="small">name="preferences"</text>
+
+  <rect x="676" y="296" width="172" height="50" class="comp" rx="6"/>
+  <text x="686" y="317" class="lbl" style="font-size:12px">c-wizard-step</text>
+  <text x="686" y="335" class="small">name="review"</text>
+
+  <!-- Footer -->
+  <rect x="92" y="372" width="776" height="44" class="comp" rx="6"/>
+  <text x="104" y="399" class="small">Footer:  [ &lt; Previous ]                                                        [ Next &gt; / Create Contact ]</text>
+
+  <!-- Apex layer -->
+  <rect x="40" y="500" width="880" height="150" class="apex" rx="10"/>
+  <text x="60" y="526" class="lbl">Apex  ·  WizardController  (with sharing)</text>
+  <text x="60" y="547" class="small">@AuraEnabled createContact(payload)  —  CRUD/FLS check · JSON to Contact · insert</text>
+  <rect x="60" y="560" width="380" height="70" class="apex" rx="6"/>
+  <text x="76" y="584" class="small" style="font-weight:600">Validation &amp; Security</text>
+  <text x="76" y="604" class="small">Schema.sObjectType.Contact.isCreateable()</text>
+  <text x="76" y="621" class="small">AuraHandledException on failure</text>
+  <rect x="460" y="560" width="440" height="70" class="apex" rx="6"/>
+  <text x="476" y="584" class="small" style="font-weight:600">Database</text>
+  <text x="476" y="604" class="small">insert Contact  ->  returns Id</text>
+  <text x="476" y="621" class="small">Toast (success / error) shown back in the UI</text>
+
+  <!-- Event annotations: step -> container (register) -->
+  <path class="edge" d="M197 296 L197 262" marker-end="url(#arrow)"/>
+  <text x="205" y="280" class="evt">wizardstepregister ^ (composed)</text>
+
+  <!-- container -> step (setActive/reportValidity) -->
+  <path class="edge" d="M760 262 L760 294" marker-end="url(#arrow)"/>
+  <text x="590" y="280" class="evt" style="fill:#8a4b00">v setActive() / reportValidity()</text>
+
+  <!-- container -> consumer events -->
+  <path class="edge" d="M480 156 L480 140" marker-end="url(#arrow)"/>
+  <text x="490" y="152" class="evt">stepchange / complete ^</text>
+
+  <!-- consumer -> apex -->
+  <path class="edge" d="M300 452 L300 500" marker-end="url(#arrow)"/>
+  <text x="310" y="480" class="evt">createContact(payload) v (imperative Apex)</text>
+</svg>

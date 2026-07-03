@@ -1,0 +1,58 @@
+<template>
+    <div
+        class="slds-card wizard"
+        onwizardstepregister={handleStepRegister}
+        onwizardstepderegister={handleStepDeregister}
+    >
+        <!-- Progress indicator -->
+        <template lwc:if={showProgress}>
+            <div class="slds-p-around_medium wizard__progress">
+                <lightning-progress-indicator
+                    current-step={_activeStepName}
+                    type={progressType}
+                    variant="base"
+                    has-error={hasError}
+                >
+                    <template for:each={progressSteps} for:item="step">
+                        <lightning-progress-step
+                            key={step.value}
+                            label={step.label}
+                            value={step.value}
+                            data-name={step.value}
+                            onclick={handleProgressStepClick}
+                        ></lightning-progress-step>
+                    </template>
+                </lightning-progress-indicator>
+            </div>
+        </template>
+
+        <!-- Step content (consumer-provided c-wizard-step children) -->
+        <div class="slds-p-horizontal_medium slds-p-vertical_small wizard__body">
+            <slot></slot>
+        </div>
+
+        <!-- Footer navigation -->
+        <template lwc:if={showFooter}>
+            <div
+                class="slds-grid slds-grid_align-spread slds-p-around_medium slds-border_top wizard__footer"
+            >
+                <div class="wizard__footer-left">
+                    <template lwc:if={showPrevious}>
+                        <lightning-button
+                            label={previousLabel}
+                            icon-name="utility:chevronleft"
+                            onclick={handlePrevious}
+                        ></lightning-button>
+                    </template>
+                </div>
+                <div class="wizard__footer-right">
+                    <lightning-button
+                        variant="brand"
+                        label={primaryLabel}
+                        onclick={handleNext}
+                    ></lightning-button>
+                </div>
+            </div>
+        </template>
+    </div>
+</template>

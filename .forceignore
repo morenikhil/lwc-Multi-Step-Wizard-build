@@ -1,0 +1,13 @@
+# LWC configuration files
+**/jsconfig.json
+**/.eslintrc.json
+
+# LWC Jest tests
+**/__tests__/**
+
+# Tooling / docs
+package.json
+jest.config.js
+node_modules
+docs
+README.md

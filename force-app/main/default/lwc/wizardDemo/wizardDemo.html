@@ -1,0 +1,132 @@
+<template>
+    <lightning-card title="New Contact" icon-name="standard:contact">
+        <div class="slds-p-horizontal_small">
+            <c-multi-step-wizard
+                progress-type="base"
+                allow-step-navigation
+                finish-label="Create Contact"
+                onstepchange={handleStepChange}
+                oncomplete={handleComplete}
+            >
+                <!-- Step 1: Personal details -->
+                <c-wizard-step name="details" label="Details">
+                    <div class="slds-grid slds-wrap slds-gutters">
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input
+                                label="First Name"
+                                data-field="firstName"
+                                value={form.firstName}
+                                onchange={handleFieldChange}
+                            ></lightning-input>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input
+                                label="Last Name"
+                                data-field="lastName"
+                                value={form.lastName}
+                                required
+                                onchange={handleFieldChange}
+                            ></lightning-input>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input
+                                type="email"
+                                label="Email"
+                                data-field="email"
+                                value={form.email}
+                                required
+                                onchange={handleFieldChange}
+                            ></lightning-input>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input
+                                type="tel"
+                                label="Phone"
+                                data-field="phone"
+                                value={form.phone}
+                                onchange={handleFieldChange}
+                            ></lightning-input>
+                        </div>
+                    </div>
+                </c-wizard-step>
+
+                <!-- Step 2: Address -->
+                <c-wizard-step name="address" label="Address">
+                    <div class="slds-grid slds-wrap slds-gutters">
+                        <div class="slds-col slds-size_1-of-1">
+                            <lightning-input
+                                label="Street"
+                                data-field="street"
+                                value={form.street}
+                                onchange={handleFieldChange}
+                            ></lightning-input>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input
+                                label="City"
+                                data-field="city"
+                                value={form.city}
+                                onchange={handleFieldChange}
+                            ></lightning-input>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input
+                                label="Country"
+                                data-field="country"
+                                value={form.country}
+                                required
+                                onchange={handleFieldChange}
+                            ></lightning-input>
+                        </div>
+                    </div>
+                </c-wizard-step>
+
+                <!-- Step 3: Preferences -->
+                <c-wizard-step name="preferences" label="Preferences">
+                    <lightning-combobox
+                        label="Preferred Contact Method"
+                        data-field="contactMethod"
+                        value={form.contactMethod}
+                        options={contactMethodOptions}
+                        required
+                        onchange={handleFieldChange}
+                    ></lightning-combobox>
+                    <lightning-input
+                        class="slds-m-top_small"
+                        type="checkbox"
+                        label="Subscribe to newsletter"
+                        data-field="newsletter"
+                        checked={form.newsletter}
+                        onchange={handleFieldChange}
+                    ></lightning-input>
+                </c-wizard-step>
+
+                <!-- Step 4: Review -->
+                <c-wizard-step name="review" label="Review">
+                    <dl class="slds-list_horizontal slds-wrap review">
+                        <dt class="slds-item_label slds-text-color_weak slds-truncate">Name</dt>
+                        <dd class="slds-item_detail slds-truncate">{fullName}</dd>
+                        <dt class="slds-item_label slds-text-color_weak slds-truncate">Email</dt>
+                        <dd class="slds-item_detail slds-truncate">{form.email}</dd>
+                        <dt class="slds-item_label slds-text-color_weak slds-truncate">Phone</dt>
+                        <dd class="slds-item_detail slds-truncate">{form.phone}</dd>
+                        <dt class="slds-item_label slds-text-color_weak slds-truncate">Address</dt>
+                        <dd class="slds-item_detail slds-truncate">
+                            {form.street}, {form.city}, {form.country}
+                        </dd>
+                        <dt class="slds-item_label slds-text-color_weak slds-truncate">Contact Method</dt>
+                        <dd class="slds-item_detail slds-truncate">{form.contactMethod}</dd>
+                        <dt class="slds-item_label slds-text-color_weak slds-truncate">Newsletter</dt>
+                        <dd class="slds-item_detail slds-truncate">{newsletterLabel}</dd>
+                    </dl>
+                    <template lwc:if={isSubmitting}>
+                        <lightning-spinner
+                            alternative-text="Submitting"
+                            size="small"
+                        ></lightning-spinner>
+                    </template>
+                </c-wizard-step>
+            </c-multi-step-wizard>
+        </div>
+    </lightning-card>
+</template>

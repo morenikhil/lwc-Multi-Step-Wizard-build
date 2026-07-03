@@ -1,0 +1,29 @@
+.wizard {
+    display: block;
+}
+
+.wizard__progress {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.wizard__body {
+    min-height: 6rem;
+}
+
+/* Give the footer buttons breathing room on small viewports. */
+@media (max-width: 480px) {
+    .wizard__footer {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .wizard__footer-left,
+    .wizard__footer-right {
+        width: 100%;
+    }
+
+    .wizard__footer-right lightning-button {
+        display: block;
+        width: 100%;
+    }
+}
