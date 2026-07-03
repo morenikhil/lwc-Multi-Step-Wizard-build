@@ -5,8 +5,7 @@ Components. It provides a progress indicator, per-step validation, back/next
 navigation and a review step — while staying completely domain-agnostic. You
 supply the steps and fields; the wizard handles orchestration.
 
-![Architecture]
-
+<img width="4800" height="3600" alt="Multi-Step Wizard - Component Architecture" src="https://github.com/user-attachments/assets/694d5180-9faa-45f8-82a6-50ddc2a4d363" />
 
 ---
 
